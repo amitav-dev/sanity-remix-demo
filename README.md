@@ -1,11 +1,4 @@
-# Full-featured Sanity Studio + Remix Vite Template
-
-Batteries-included [Remix](https://remix.run/) website using Vite with [Vercel's deployment preset](https://vercel.com/docs/frameworks/remix) with [Visual Editing](https://www.sanity.io/docs/visual-editing) for interactive live-preview inside [Presentation](https://www.sanity.io/docs/presentation) powered by an embedded [Sanity Studio](https://www.sanity.io/studio).
-
-![Presentation tool in Sanity Studio](./img/sanity-remix-presentation.png)
-
-[Sanity Docs](https://sanity.io/docs) | [Remix Docs](https://remix.run/docs)
-
+# Sanity Studio + Remix Vite Boilerplate
 ## Installation
 
 From the command line, install this project as a Remix template:

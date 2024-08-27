@@ -1,4 +1,4 @@
-import type {LoaderFunctionArgs} from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 import {
   json,
   Outlet,
@@ -6,19 +6,19 @@ import {
   useLocation,
   useOutletContext,
 } from '@remix-run/react'
-import {useQuery} from '@sanity/react-loader'
-import {VisualEditing} from '@sanity/visual-editing/remix'
-import {lazy, Suspense} from 'react'
+import { useQuery } from '@sanity/react-loader'
+import { VisualEditing } from '@sanity/visual-editing/remix'
+import { lazy, Suspense } from 'react'
 
-import {Footer} from '~/components/Footer'
-import {Header} from '~/components/Header'
-import {Title} from '~/components/Title'
-import {loadQuery} from '~/sanity/loader.server'
-import {loadQueryOptions} from '~/sanity/loadQueryOptions.server'
-import {HOME_QUERY} from '~/sanity/queries'
-import type {HomeDocument} from '~/types/home'
-import {homeZ} from '~/types/home'
-import type {ThemePreference} from '~/types/themePreference'
+import { Footer } from '~/components/Footer'
+import { Header } from '~/components/Header'
+import { Title } from '~/components/Title'
+import { loadQuery } from '~/sanity/loader.server'
+import { loadQueryOptions } from '~/sanity/loadQueryOptions.server'
+import { HOME_QUERY } from '~/sanity/queries'
+import type { HomeDocument } from '~/types/home'
+import { homeZ } from '~/types/home'
+import type { ThemePreference } from '~/types/themePreference'
 
 const SanityLiveMode = lazy(() =>
   import('~/components/SanityLiveMode').then((module) => ({
@@ -31,8 +31,8 @@ const ExitPreview = lazy(() =>
   })),
 )
 
-export const loader = async ({request}: LoaderFunctionArgs) => {
-  const {preview, options} = await loadQueryOptions(request.headers)
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const { preview, options } = await loadQueryOptions(request.headers)
 
   // Content from Sanity used in the global layout
   const query = HOME_QUERY
@@ -48,20 +48,23 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     initial,
     query,
     params,
-    sanity: {preview},
+    sanity: { preview },
   })
 }
 
 export default function Website() {
-  const {initial, query, params, sanity} = useLoaderData<typeof loader>()
-  const {data: home} = useQuery<typeof initial.data>(query, params, {
+  const { initial, query, params, sanity } = useLoaderData<typeof loader>()
+  console.log(initial)
+  console.log(query)
+  console.log(params)
+  const { data: home } = useQuery<typeof initial.data>(query, params, {
     // There's a TS issue with how initial comes over the wire
     // @ts-expect-error
     initial,
   })
-  const {pathname} = useLocation()
-  const {theme} = useOutletContext<{theme: ThemePreference}>()
-
+  const { pathname } = useLocation()
+  const { theme } = useOutletContext<{ theme: ThemePreference }>()
+  console.log(home);
   return (
     <>
       <Header home={home} theme={theme} />

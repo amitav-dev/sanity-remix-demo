@@ -10,7 +10,7 @@ import {client} from '~/sanity/client'
 // and the stega/perspective options are configured in each loader
 const clientWithToken = client.withConfig({
   // Token required for when previewDrafts perspective is set in a loader
-  token: process.env.SANITY_READ_TOKEN,
+  token: process.env.VITE_SANITY_READ_TOKEN,
   // There is a bug in the current React Loader where loadQuery does not respect these options
   // So they're disabled by default, which means no server-side Stega
   // But the <LiveMode /> component will do the job for us client-side

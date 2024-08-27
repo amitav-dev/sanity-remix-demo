@@ -13,7 +13,7 @@ export async function loadQueryOptions(
   const previewSession = await getSession(headers.get('Cookie'))
   const preview = previewSession.get('projectId') === client.config().projectId
 
-  if (preview && !process.env.SANITY_READ_TOKEN) {
+  if (preview && !process.env.VITE_SANITY_READ_TOKEN) {
     throw new Error(
       `Cannot activate preview mode without a "SANITY_READ_TOKEN" token in your environment variables. \n\n
       Create one with "Viewer" permissions at\n\n
