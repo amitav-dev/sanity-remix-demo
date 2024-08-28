@@ -53,8 +53,6 @@ export const action: ActionFunction = async ({ request }) => {
     token: process.env.VITE_SANITY_WRITE_TOKEN,
   })
   const { token, projectId } = writeClient.config()
-  console.log("token")
-  console.log(token)
   if (!token) {
     throw new Response(
       `Setup "SANITY_WRITE_TOKEN" with a token with "Editor" permissions to your environment variables. Create one at https://sanity.io/manage/project/${projectId}/api#tokens`,

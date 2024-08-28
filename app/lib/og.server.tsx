@@ -17,7 +17,7 @@ export async function generatePngFromDocument(
   doc: SanityDocument,
   origin: string,
 ) {
-  const {title, artist, image} = doc
+  const {title, cast, image} = doc
 
   // Prepare font data and settings for Satori
   const fontSansData = await fontSans(origin)
@@ -59,8 +59,8 @@ export async function generatePngFromDocument(
         }}
       >
         <div style={{fontSize: 100}}>{title}</div>
-        {artist?.title ? (
-          <div style={{fontSize: 40}}>{artist.title}</div>
+        {cast?.title ? (
+          <div style={{fontSize: 40}}>{cast.title}</div>
         ) : null}
       </div>
       {image?.asset?._ref ? (

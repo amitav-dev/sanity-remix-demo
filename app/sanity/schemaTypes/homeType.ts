@@ -21,7 +21,7 @@ export const homeType = defineType({
   preview: {
     select: {
       title: 'title',
-      artist: 'siteTitle',
+      cast: 'siteTitle',
     },
   },
 })

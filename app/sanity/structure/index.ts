@@ -1,11 +1,11 @@
-import {Disc, Home, Tags, Users} from 'lucide-react'
+import { Disc, Home, Tags, Users } from 'lucide-react'
 import type {
   DefaultDocumentNodeResolver,
   StructureResolver,
 } from 'sanity/structure'
 
 import OGPreview from '~/sanity/components/OGPreview'
-import {resolveOGUrl} from '~/sanity/structure/resolveOGUrl'
+import { resolveOGUrl } from '~/sanity/structure/resolveOGUrl'
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -22,14 +22,14 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       // Document lists
       S.documentTypeListItem('record').title('Records').icon(Disc),
-      S.documentTypeListItem('artist').title('Artists').icon(Users),
+      S.documentTypeListItem('cast').title('Casts').icon(Users),
       S.divider(),
       S.documentTypeListItem('genre').title('Genres').icon(Tags),
     ])
 
 export const defaultDocumentNode: DefaultDocumentNodeResolver = (
   S,
-  {schemaType, documentId},
+  { schemaType, documentId },
 ) => {
   const OGPreviewView = S.view
     .component(OGPreview)

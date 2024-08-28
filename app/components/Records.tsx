@@ -43,9 +43,9 @@ export function Records(props: RecordsProps) {
                 {record.title}
               </span>
             )}
-            {record?.artist ? (
+            {record?.cast ? (
               <span className="bg-black font-bold leading-none tracking-tighter text-white dark:bg-white dark:text-black">
-                {record.artist}
+                {record.cast}
               </span>
             ) : null}
           </div>

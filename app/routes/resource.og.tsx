@@ -15,7 +15,7 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
     return new Response('Bad request', {status: 400})
   }
 
-  const doc = await viewClient.fetch(groq`*[_id == $id][0]{ ..., artist-> }`, {
+  const doc = await viewClient.fetch(groq`*[_id == $id][0]{ ..., cast-> }`, {
     id,
   })
 

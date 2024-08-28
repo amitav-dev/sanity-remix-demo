@@ -63,9 +63,9 @@ export const recordType = defineType({
       fieldset: 'rating',
     }),
     defineField({
-      name: 'artist',
+      name: 'cast',
       type: 'reference',
-      to: [{type: 'artist'}],
+      to: [{type: 'cast'}],
       group: 'details',
     }),
     defineField({
@@ -100,13 +100,13 @@ export const recordType = defineType({
   preview: {
     select: {
       title: 'title',
-      artist: 'artist.name',
+      cast: 'cast.name',
       media: 'image',
     },
-    prepare({title, artist, media}) {
+    prepare({title, cast, media}) {
       return {
         title,
-        subtitle: artist,
+        subtitle: cast,
         media,
       }
     },

@@ -8,7 +8,7 @@ export const RECORDS_QUERY = groq`*[_type == "record"][0...12]|order(title asc){
     title,
     releaseDate,
     "slug": slug.current,
-    "artist": artist->name,
+    "cast": cast->name,
     image
   } | order(releaseDate desc)`
 
@@ -19,7 +19,7 @@ export const RECORD_QUERY = groq`*[_type == "record" && slug.current == $slug][0
   releaseDate,
   // GROQ can re-shape data in the request!
   "slug": slug.current,
-  "artist": artist->name,
+  "cast": cast->name,
   // coalesce() returns the first value that is not null
   // so we can ensure we have at least a zero
   "likes": coalesce(likes, 0),

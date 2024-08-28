@@ -1,25 +1,25 @@
-import {faker} from '@faker-js/faker'
-import {htmlToBlocks} from '@sanity/block-tools'
-import {Schema} from '@sanity/schema'
-import {JSDOM} from 'jsdom'
-import type {FieldDefinition, SanityDocumentLike} from 'sanity'
-import {getCliClient} from 'sanity/cli'
+import { faker } from '@faker-js/faker'
+import { htmlToBlocks } from '@sanity/block-tools'
+import { Schema } from '@sanity/schema'
+import { JSDOM } from 'jsdom'
+import type { FieldDefinition, SanityDocumentLike } from 'sanity'
+import { getCliClient } from 'sanity/cli'
 
 import schema from '~/sanity/schemaTypes'
 
 const client = getCliClient()
 const RECORD_COUNT = 6
-const ARTIST_COUNT = 20
+const CAST_COUNT = 20
 
-const defaultSchema = Schema.compile({types: schema})
+const defaultSchema = Schema.compile({ types: schema })
 const blockContentSchema = defaultSchema
   .get('record')
   .fields.find((field: FieldDefinition) => field.name === 'content').type
 
 // Create 2-5 paragraphs of fake block content
 function createFakeBlockContent() {
-  const html = Array.from({length: faker.number.int({min: 2, max: 5})})
-    .map(() => `<p>${faker.lorem.paragraph({min: 2, max: 5})}</p>`)
+  const html = Array.from({ length: faker.number.int({ min: 2, max: 5 }) })
+    .map(() => `<p>${faker.lorem.paragraph({ min: 2, max: 5 })}</p>`)
     .join(``)
   return htmlToBlocks(html, blockContentSchema, {
     parseHtml: (html) => new JSDOM(html).window.document,
@@ -33,7 +33,7 @@ async function createData() {
 
   await client.delete({
     query: `*[_type in $types]`,
-    params: {types: ['home', 'record', 'artist', 'genre', 'sanity.imageAsset']},
+    params: { types: ['home', 'record', 'cast', 'genre', 'sanity.imageAsset'] },
   })
 
   const home = {
@@ -43,21 +43,21 @@ async function createData() {
     siteTitle: 'Sanity ❤️ Remix',
   }
 
-  const artists: SanityDocumentLike[] = []
+  const casts: SanityDocumentLike[] = []
 
-  for (let categoryI = 0; categoryI < ARTIST_COUNT; categoryI++) {
+  for (let categoryI = 0; categoryI < CAST_COUNT; categoryI++) {
     const name = faker.person.fullName()
 
-    artists.push({
-      _type: 'artist',
+    casts.push({
+      _type: 'cast',
       _id: faker.string.uuid(),
       name,
-      slug: {current: faker.helpers.slugify(name).toLowerCase()},
+      slug: { current: faker.helpers.slugify(name).toLowerCase() },
     })
   }
 
   const genres: SanityDocumentLike[] = []
-  const uniqueGenres: string[] = Array.from({length: 50})
+  const uniqueGenres: string[] = Array.from({ length: 50 })
     .map((_) => faker.music.genre())
     .reduce<string[]>(
       (acc, cur) => (acc.includes(cur) ? acc : [...acc, cur]),
@@ -71,7 +71,7 @@ async function createData() {
       _type: 'genre',
       _id: faker.string.uuid(),
       title,
-      slug: {current: faker.helpers.slugify(title).toLowerCase()},
+      slug: { current: faker.helpers.slugify(title).toLowerCase() },
     })
   }
 
@@ -80,7 +80,7 @@ async function createData() {
   for (let postI = 0; postI < RECORD_COUNT; postI++) {
     const title = faker.music.songName()
 
-    const imageUrl = faker.image.urlPicsumPhotos({width: 800, height: 600})
+    const imageUrl = faker.image.urlPicsumPhotos({ width: 800, height: 600 })
     const imageBuffer = await fetch(imageUrl).then((res) => res.arrayBuffer())
     const imageAsset = await client.assets.upload(
       'image',
@@ -91,7 +91,7 @@ async function createData() {
       _type: 'record',
       _id: faker.string.uuid(),
       title,
-      slug: {current: faker.helpers.slugify(title).toLowerCase()},
+      slug: { current: faker.helpers.slugify(title).toLowerCase() },
       releaseDate: faker.date.past(),
       likes: Math.floor(Math.random() * 100),
       dislikes: Math.floor(Math.random() * 100),
@@ -104,7 +104,7 @@ async function createData() {
         },
       },
       genres: faker.helpers
-        .arrayElements(genres, {min: 2, max: 4})
+        .arrayElements(genres, { min: 2, max: 4 })
         .map((genre) => ({
           _key: faker.string.uuid(),
           _ref: genre._id,
@@ -114,24 +114,24 @@ async function createData() {
         .arrayElements(
           Array.from(
             new Set(
-              Array.from({length: 20}).map((_) => faker.music.songName()),
+              Array.from({ length: 20 }).map((_) => faker.music.songName()),
             ),
           ),
-          {min: 8, max: 12},
+          { min: 8, max: 12 },
         )
         .map((track) => ({
           _key: faker.string.uuid(),
           title: track,
-          duration: faker.number.int({min: 120, max: 360}),
+          duration: faker.number.int({ min: 120, max: 360 }),
         })),
-      artist: {
+      cast: {
         _type: 'reference',
-        _ref: artists[Math.floor(Math.random() * ARTIST_COUNT)]._id,
+        _ref: casts[Math.floor(Math.random() * CAST_COUNT)]._id,
       },
     })
   }
 
-  const data = [home, ...artists, ...genres, ...records]
+  const data = [home, ...casts, ...genres, ...records]
 
   const transaction = client.transaction()
 

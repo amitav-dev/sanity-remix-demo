@@ -12,7 +12,7 @@ type RecordProps = {
 }
 
 export function Record({data}: RecordProps) {
-  const {_id, title, artist, content, image, tracks, likes, dislikes} = data
+  const {_id, title, cast, content, image, tracks, likes, dislikes} = data
   const imageDataAttribute = createDataAttribute({
     id: _id,
     path: ['image'],
@@ -31,9 +31,9 @@ export function Record({data}: RecordProps) {
       <div className="flex flex-shrink-0 flex-col gap-4 lg:gap-6 lg:w-2/3">
         <header>
           {title ? <Title>{title}</Title> : null}
-          {artist ? (
+          {cast ? (
             <h2 className="bg-black text-2xl font-bold tracking-tighter text-white">
-              {artist}
+              {cast}
             </h2>
           ) : null}
         </header>
